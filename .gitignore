@@ -52,3 +52,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/EShopMicroServices/.vs/EShopMicroServices.slnx/FileContentIndex
+/.vs
+/EShopMicroServices/.vs/EShopMicroServices.slnx
