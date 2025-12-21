@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.CQRS;
 using Catalog.API.Models;
+using Marten;
 using System.Windows.Input;
 
 namespace Catalog.API.Products.CreateProduct
@@ -8,7 +9,7 @@ namespace Catalog.API.Products.CreateProduct
         : ICommand<CreateProductResult>;
     public record CreateProductResult(Guid Id);
 
-    internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
+    internal class CreateProductCommandHandler(IDocumentSession documentSession ) : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
@@ -22,9 +23,9 @@ namespace Catalog.API.Products.CreateProduct
                 Price = request.Price
             };
 
+            documentSession.Store(product);
+            await documentSession.SaveChangesAsync(cancellationToken);
             return new CreateProductResult(product.Id);
-
-            //throw new NotImplementedException();
         }
     }
 }
